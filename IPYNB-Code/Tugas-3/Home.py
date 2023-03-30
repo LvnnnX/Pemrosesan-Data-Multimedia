@@ -69,13 +69,15 @@ def get_progress():
             pass
 
         st.subheader(f'Normalize Text')
-        select_norm = ['Using Sastrawi','Using Lemmatize (very very slow!, i\'m using kbbi web-scraping to normalize)']
+        select_norm = ['Using Stemmer (Sastrawi)','Using Lemmatize (very very slow!, i\'m using kbbi web-scraping to normalize)']
         selected_norm = st.selectbox(
             'Select Normalize Type',
             select_norm
         )
         data.Clean = stopstem.define_normalizer(data.Clean,select_norm.index(selected_norm))
         st.dataframe(data=data,width=1000*len(data.columns))
+        if(select_norm.index(selected_norm)==1):
+            st.write('#Notes : Ada limit dalam pencarian menggunakakn KBBI Web, jika tidak terjadi perubahan, maka itu menandakan bahwa sudah menyentuh LIMIT🙏')
 
         st.subheader(f'One-Hot Encoding (Clean Data)')
         st.write(f'One-Hot Encoding secara menual dengan melakukan enumerasi terhadap setiap unique values yang terdapat pada kalimat')

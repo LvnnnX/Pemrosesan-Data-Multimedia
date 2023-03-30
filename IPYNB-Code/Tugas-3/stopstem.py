@@ -13,7 +13,7 @@ def iterate_lemma(kata):
     try:
         kata = str(KBBI(kata)).split()[0].replace('.','')
     except:
-        pass
+        kata = kata
     return kata
 
 def lemmatize(df):
@@ -21,8 +21,13 @@ def lemmatize(df):
     return data
 
 def stemming(df):
-    data = df.apply(lambda x: stemmer.stem(x))
-    return data
+    # data = df.apply(lambda x: stemmer.stem(x))
+    for x in range(len(df)):
+        datax = df.iloc[x].split()
+        for y in range(len(datax)):
+            datax[y] = stemmer.stem(datax[y])
+        df.iloc[x] = ' '.join(datax)
+    return df
 
 def define_stop_words(num:int):
     if(num==0):
