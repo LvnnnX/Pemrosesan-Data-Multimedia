@@ -110,7 +110,7 @@ if __name__== '__main__':
 
     try:
         get_num = int(st.text_input(label='',placeholder='Masukkan Nomor Absen'))
-        if(get_num<1 or get_num>21):
+        if(get_num<1 or get_num>20):
             raise NameError
         get_progress()
         
