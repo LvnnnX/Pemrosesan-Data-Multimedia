@@ -6,7 +6,7 @@ from PIL import Image
 
 PATH = Path(__file__).parent.parent.parent
 DDIR = PATH / 'datasets'
-IMGDIR = PATH / 'images'
+IMGDIR = PATH / 'Images'
 
 df = pd.read_excel(f'{DDIR}/Dataset B.xlsx')
 
