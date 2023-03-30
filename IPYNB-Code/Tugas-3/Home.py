@@ -108,7 +108,7 @@ if __name__== '__main__':
         st.header('Analisis')
 
     try:
-        get_num = int(st.text_input(label='',placeholder='Masukkan Nomor Absen',value='5'))
+        get_num = int(st.text_input(label='Masukkan Nomor Absen',placeholder='Ketik Disini!',value='5'))
         if(get_num<1 or get_num>20):
             raise NameError
         get_progress()
