@@ -50,8 +50,8 @@ def get_progress():
         st.subheader(f'Removing stop-words')
         select_stop = ['From NLTK','From Sastrawi', 'Both']
         selected_stop = st.selectbox(
-            'Select Stop Words Type',
-            select_stop,
+            label='Select Stop Words Type',
+            key=select_stop,
         )
         # st.write(f'{select_list.index(selected_stop)}')
         stop_words = stopstem.define_stop_words(select_stop.index(selected_stop))
@@ -71,8 +71,8 @@ def get_progress():
         st.subheader(f'Normalize Text')
         select_norm = ['Using Stemmer (Sastrawi)','Using Lemmatize (very very slow!, i\'m using kbbi web-scraping to normalize)']
         selected_norm = st.selectbox(
-            'Select Normalize Type',
-            select_norm
+            label='Select Normalize Type',
+            key=select_norm
         )
         data.Clean = stopstem.define_normalizer(data.Clean,select_norm.index(selected_norm))
         st.dataframe(data=data,width=1000*len(data.columns))
