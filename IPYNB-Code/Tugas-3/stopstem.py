@@ -7,24 +7,24 @@ from kbbi import KBBI
 
 
 nltk.download('stopwords')
-nlp=spacy.blank('id')
+nlp=spacy.blank('id') #tidak digunakan, hanya untuk eksperimen
 stem_factory = StemmerFactory()
 stemmer = stem_factory.create_stemmer()
 stop_factory = StopWordRemoverFactory()
 
 def iterate_lemma(kata):
     try:
-        kata = str(KBBI(kata)).split()[0].replace('.','')
+        kata = str(KBBI(kata)).split()[0].replace('.','') #Menggunakan KBBI untuk mencari kata dasar
     except:
-        kata = kata
+        kata = kata #kalau error atau tidak ketemu, maka kata tidak berubah
     return kata
 
 def lemmatize(df):
-    data = df.apply(lambda x: ' '.join([iterate_lemma(kata) for kata in x.split()]))
+    data = df.apply(lambda x: ' '.join([iterate_lemma(kata) for kata in x.split()])) #Mengganti kata menjadi kata dasar menggunakan KBBI API
     return data
 
 def stemming(df):
-    data = df.apply(lambda x: stemmer.stem(x))
+    data = df.apply(lambda x: stemmer.stem(x)) #Mengganti menjadi kata dasar menggunakan Sastrawi.Stemmer
     # for x in range(len(df)):
         # datax = df.iloc[x].split()
         # for y in range(len(datax)):
@@ -33,9 +33,9 @@ def stemming(df):
         # df.iloc[x] = stemmer.stem(df.iloc[x])
     return data
 
-def define_stop_words(num:int):
+def define_stop_words(num:int): #Pilihan user pada box pilihan stop-words
     if(num==0):
-        stop_word = stopwords.words('indonesian')
+        stop_word = stopwords.words('indonesian') 
     elif(num==1):
         stop_word = stop_factory.get_stop_words()
     elif(num==2):
@@ -44,7 +44,7 @@ def define_stop_words(num:int):
         raise ValueError
     return stop_word
 
-def define_normalizer(df, num:int):
+def define_normalizer(df, num:int): #pilihan user pada box pilihan normalisasi teks
     if(num==0):
         return stemming(df=df)
     elif(num==1):
