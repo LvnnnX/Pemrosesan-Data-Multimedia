@@ -1,9 +1,12 @@
 from nltk.corpus import stopwords
+import nltk
 from Sastrawi.Stemmer.StemmerFactory import StemmerFactory
 from Sastrawi.StopWordRemover.StopWordRemoverFactory import StopWordRemoverFactory
 import spacy
 from kbbi import KBBI
 
+
+nltk.download('stopwords')
 nlp=spacy.blank('id')
 stem_factory = StemmerFactory()
 stemmer = stem_factory.create_stemmer()
