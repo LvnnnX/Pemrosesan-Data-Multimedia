@@ -24,13 +24,14 @@ def lemmatize(df):
     return data
 
 def stemming(df):
-    # data = df.apply(lambda x: stemmer.stem(x))
-    for x in range(len(df)):
-        datax = df.iloc[x].split()
-        for y in range(len(datax)):
-            datax[y] = stemmer.stem(datax[y])
-        df.iloc[x] = ' '.join(datax)
-    return df
+    data = df.apply(lambda x: stemmer.stem(x))
+    # for x in range(len(df)):
+        # datax = df.iloc[x].split()
+        # for y in range(len(datax)):
+        #     datax[y] = stemmer.stem(datax[y])
+        # df.iloc[x] = ' '.join(datax)
+        # df.iloc[x] = stemmer.stem(df.iloc[x])
+    return data
 
 def define_stop_words(num:int):
     if(num==0):
