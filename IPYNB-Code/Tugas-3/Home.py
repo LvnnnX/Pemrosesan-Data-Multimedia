@@ -115,6 +115,28 @@ def get_progress():
             st.dataframe(data=data.head(),width=1000*len(data.columns)) #Menampilkan data setelah penghapusan kata yang tidak diinginkan
 ################################################################################################################################################################################
 
+################################################################################################################################################################################
+
+        st.subheader(f'Change text')
+        all_change = st.text_area(label=f'Ubah kata-kata menjadi sebuah kata baru (contoh: bgs = bagus, krn = keren) pisahkan dengan koma!',placeholder='Ketik disini!'
+                                  ,value=change_text.changed)
+        all_change = all_change.split(',')
+        data.Clean = dataholder.replace_all(data.Clean,all_change,1)
+        data_token.Words = dataholder.replace_all(data_token.Words,all_change,0)
+        data_token = dataholder.remove_empty(data_token)
+        selected_unwanted = st.selectbox( #Box pemilihan untuk memilih mode tampilan dataframe change text
+            label='Select Dataframe Type',
+            options=select_type_dataframe,
+            key='selectchange'
+        )
+        if( selected_unwanted == select_type_dataframe[0]):
+            st.dataframe(data=data_token, width=1000)
+            st.write(f'Panjang data token menjadi : {data_token.shape[0]}')
+        else:
+            st.dataframe(data=data,width=1000*len(data.columns)) #Menampilkan hasil setelah change text
+        # st.write(data=data_token,width=)
+################################################################################################################################################################################
+
 
 ################################################################################################################################################################################
         st.subheader(f'Removing stop-words')
@@ -147,29 +169,6 @@ def get_progress():
                 st.dataframe(data=data.head(),width=1000*len(data.columns)) #Memanggil remove_stop_words untuk menghapus stop-words dengan stop-words tambahan dari user
         except:
             pass
-################################################################################################################################################################################
-
-
-################################################################################################################################################################################
-
-        st.subheader(f'Change text')
-        all_change = st.text_area(label=f'Ubah kata-kata menjadi sebuah kata baru (contoh: bgs = bagus, krn = keren) pisahkan dengan koma!',placeholder='Ketik disini!'
-                                  ,value=change_text.changed)
-        all_change = all_change.split(',')
-        data.Clean = dataholder.replace_all(data.Clean,all_change,1)
-        data_token.Words = dataholder.replace_all(data_token.Words,all_change,0)
-        data_token = dataholder.remove_empty(data_token)
-        selected_unwanted = st.selectbox( #Box pemilihan untuk memilih mode tampilan dataframe change text
-            label='Select Dataframe Type',
-            options=select_type_dataframe,
-            key='selectchange'
-        )
-        if( selected_unwanted == select_type_dataframe[0]):
-            st.dataframe(data=data_token, width=1000)
-            st.write(f'Panjang data token menjadi : {data_token.shape[0]}')
-        else:
-            st.dataframe(data=data,width=1000*len(data.columns)) #Menampilkan hasil setelah change text
-        # st.write(data=data_token,width=)
 ################################################################################################################################################################################
 
 
