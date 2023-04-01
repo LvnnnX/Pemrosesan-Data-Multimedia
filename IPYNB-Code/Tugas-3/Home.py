@@ -124,12 +124,12 @@ def get_progress():
         data.Clean = dataholder.replace_all(data.Clean,all_change,1)
         data_token.Words = dataholder.replace_all(data_token.Words,all_change,0)
         data_token = dataholder.remove_empty(data_token)
-        selected_unwanted = st.selectbox( #Box pemilihan untuk memilih mode tampilan dataframe change text
+        selected_changetext = st.selectbox( #Box pemilihan untuk memilih mode tampilan dataframe change text
             label='Select Dataframe Type',
             options=select_type_dataframe,
             key='selectchange'
         )
-        if( selected_unwanted == select_type_dataframe[0]):
+        if( selected_changetext == select_type_dataframe[0]):
             st.dataframe(data=data_token, width=1000)
             st.write(f'Panjang data token menjadi : {data_token.shape[0]}')
         else:
@@ -150,12 +150,12 @@ def get_progress():
         data.Clean = convert.remove_stop_word(data.Clean,stop_word=stop_words) #Memanggil remove_stop_words untuk menghapus stop-words yang ada pada teks
         data_token.Words = convert.remove_stop_word(data_token.Words,stop_word=stop_words)
         data_token = dataholder.remove_empty(data_token)
-        selected_unwanted = st.selectbox( #Box pemilihan untuk memilih mode tampilan dataframe stop-words
+        selected_stopwords2 = st.selectbox( #Box pemilihan untuk memilih mode tampilan dataframe stop-words
             label='Select Dataframe Type',
             options=select_type_dataframe,
             key='selectwstopword'
         )
-        if( selected_unwanted == select_type_dataframe[0]):
+        if( selected_stopwords2 == select_type_dataframe[0]):
             st.dataframe(data=data_token, width=1000)
             st.write(f'Panjang data token menjadi : {data_token.shape[0]}')
         else:
@@ -182,12 +182,12 @@ def get_progress():
         data.Clean = stopstem.define_normalizer(data.Clean,select_norm.index(selected_norm)) #Memanggil define_normalizer yang berguna untuk melakukan normalisasi pada data yang ingin dibersihkan
         data_token.Words = stopstem.define_normalizer(data_token.Words,select_norm.index(selected_norm))
         data_token = dataholder.remove_empty(data_token)
-        selected_unwanted = st.selectbox( #Box pemilihan untuk memilih mode tampilan dataframe normalize
+        selected_normalize = st.selectbox( #Box pemilihan untuk memilih mode tampilan dataframe normalize
             label='Select Dataframe Type',
             options=select_type_dataframe,
             key='selectnormalize'
         )
-        if( selected_unwanted == select_type_dataframe[0]):
+        if( selected_normalize == select_type_dataframe[0]):
             st.dataframe(data=data_token, width=1000)
         else:
             st.dataframe(data=data,width=1000*len(data.columns)) #Menampilkan data yang telah di normalisasi
