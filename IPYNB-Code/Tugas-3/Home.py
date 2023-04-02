@@ -3,7 +3,7 @@ import dataholder
 import convert
 import stopstem
 import change_text
-import pandas as pd
+# import pandas as pd
 
 def get_progress():
     try:

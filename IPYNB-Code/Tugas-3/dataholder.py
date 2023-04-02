@@ -104,9 +104,22 @@ def replace_all(df,list_replace:list,mode:int):
         kiri = isi_string[0].strip() #pemisahan bagian kiri
         kanan = isi_string[1].strip() #pemisahan bagian kanan
         if(mode==0):
-            df.replace(kiri,kanan,inplace=True) #replace kata ini
+            # df.replace(kiri,kanan,inplace=True) #replace kata ini
+            for key,kata in enumerate(df):
+                if(kata==kiri):
+                    df.iloc[key]=kanan
         elif(mode==1): 
-            df = df.apply(lambda x: re.sub(kiri,kanan,x)) #replace kata di dataframe
+            # df = df.apply(lambda x: re.sub(kiri,kanan,x)) #replace kata di dataframe
+            for key,rows in enumerate(df):
+                kalimat = rows.split()
+                found=1
+                while(found==1):
+                    found=0
+                    if(kiri in kalimat):
+                        kalimat[kalimat.index(kiri)] = kanan
+                        found=1
+                # for kata in kalimat:
+                df.iloc[key] = ' '.join(kalimat)
         else: 
             raise NameError
     return df
