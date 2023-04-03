@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 from pathlib import Path
 import math
+import re
 from PIL import Image
 
 PATH = Path(__file__).parent.parent.parent #Membuat Base Directory, Karena berada pada PDM/IPYNB-Code/Tugas-3, harus keluar directory sebanyak 3x
@@ -10,13 +11,19 @@ IMGDIR = PATH / 'Images' #Directory untuk gambar
 
 df = pd.read_excel(f'{DDIR}/Dataset B.xlsx') #Mengambil Dataset B
 
-
 def get_sample(df, num:int):
     df = df.iloc[num*10-10:num*10,:] #Memilih 10 ulasan dengan rumus = Rentangan data(x) = no absen*10-10 < x < no absen * 10
     return df #mengembalikan return berupa dataframe
 
 def drop_column(df, dropped:list):
     df = df.drop(columns=dropped) #Membuang kolom
+    return df
+
+def remove_empty(df):
+    df = df.replace('' , np.nan)
+    df.drop_duplicates(keep='first',inplace=True)
+    df.dropna(inplace=True)
+    df.reset_index(drop=True,inplace=True)
     return df
 
 def make_bag_of_words(df):
@@ -90,6 +97,32 @@ def get_images(name):
     image = Image.open(f'{IMGDIR}/{name}.jpg') #Mengambil gambar pada directory images
     return image #mengembalikan value berupa gambar
 
+
+def replace_all(df,list_replace:list,mode:int):
+    for string in list_replace:
+        isi_string = string.split('=') #pisahkan input dengan pemisahan yaitu =
+        kiri = isi_string[0].strip() #pemisahan bagian kiri
+        kanan = isi_string[1].strip() #pemisahan bagian kanan
+        if(mode==0):
+            # df.replace(kiri,kanan,inplace=True) #replace kata ini
+            for key,kata in enumerate(df):
+                if(kata==kiri):
+                    df.iloc[key]=kanan
+        elif(mode==1): 
+            # df = df.apply(lambda x: re.sub(kiri,kanan,x)) #replace kata di dataframe
+            for key,rows in enumerate(df):
+                kalimat = rows.split()
+                found=1
+                while(found==1):
+                    found=0
+                    if(kiri in kalimat):
+                        kalimat[kalimat.index(kiri)] = kanan
+                        found=1
+                # for kata in kalimat:
+                df.iloc[key] = ' '.join(kalimat)
+        else: 
+            raise NameError
+    return df
 
 
 #Dibuat oleh Pande Dani
