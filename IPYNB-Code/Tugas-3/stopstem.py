@@ -33,11 +33,11 @@ def stemming(df):
 
 def define_stop_words(num:int): #Pilihan user pada box pilihan stop-words
     if(num==0):
-        stop_word = stopwords.words('indonesian') 
+        stop_word = stopwords.words('indonesian') + stopwords.words('english')
     elif(num==1):
         stop_word = stop_factory.get_stop_words()
     elif(num==2):
-        stop_word = list(set(stopwords.words('indonesian') + stop_factory.get_stop_words()))
+        stop_word = list(set(stopwords.words('indonesian') + stopwords.words('english') + stop_factory.get_stop_words()))
     else:
         raise ValueError
     return stop_word
