@@ -7,6 +7,37 @@ from pathlib import Path
 PATH = Path(__file__).parent.parent.parent
 DDIR = PATH / 'datasets'
 
+def get_glcm(image, derajat=0, jarak=1):
+    derajat_acc = [0, 45, 90, 135]
+    if(derajat not in derajat_acc):
+        print('Derajat tidak dikenali')
+        return
+    image_max = np.max(image)
+    print(image_max)
+    glcm_matrix = np.zeros((image_max+1, image_max+1), dtype=int)
+    if(derajat == 0):
+        for i in range(image.shape[0]-jarak):
+            for j in range(image.shape[1]-jarak):
+                glcm_matrix[image[i,j], image[i+jarak,j+jarak]] += 1
+    elif(derajat == 45):
+        for i in range(image.shape[0]-jarak):
+            for j in range(jarak, image.shape[1]):
+                glcm_matrix[image[i,j], image[i+jarak,j-jarak]] += 1
+    elif(derajat == 90):
+        for i in range(image.shape[0]-jarak):
+            for j in range(image.shape[1]):
+                glcm_matrix[image[i,j], image[i+jarak,j]] += 1
+    else:
+        for i in range(image.shape[0]-jarak):
+            for j in range(image.shape[1]-jarak):
+                glcm_matrix[image[i,j], image[i+jarak,j+jarak]] += 1
+
+    glcm_transposed = glcm_matrix.T
+    glcm_matrix = glcm_matrix + glcm_transposed
+    glcm_all_value = np.sum(glcm_matrix)
+    glcm_matrix = glcm_matrix / glcm_all_value
+    return glcm_matrix
+
 def calc_glcm_all_agls(img, label, props, dists=[5], agls=[0, np.pi/4, np.pi/2, 3*np.pi/4], lvl=256, sym=True, norm=True):
         glcm = graycomatrix(img, 
                         distances=dists, 

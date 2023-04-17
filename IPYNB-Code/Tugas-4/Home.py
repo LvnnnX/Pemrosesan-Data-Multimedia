@@ -31,7 +31,7 @@ def first_run_get_sample():
             st.image(sample_image,width=300,caption=f'Sample Gambar {selected_sample_image}-{sample_num:04d}.jpg')
         with col3:
             st.header('')
-        return second_run_get_pixel_dataframe()
+        second_run_get_pixel_dataframe()
 
 def second_run_get_pixel_dataframe():
     st.subheader('Menampilkan Matrix berdasarkan gambar yang anda pilih')
@@ -51,7 +51,7 @@ def second_run_get_pixel_dataframe():
         )
         sample_matrix_data = dataholder.get_one_matrix(sample_matrix,selected_sample_matrix.lower())
         st.write(sample_matrix_data)
-        return third_run_colour_histogram()
+        third_run_colour_histogram()
 
 def third_run_colour_histogram():
     st.subheader('Menampilkan Histogram berdasarkan gambar yang anda pilih')
@@ -85,10 +85,30 @@ def fourth_run_first_order_statistics():
         else:
             for i in type:
                 st.dataframe(dataholder.get_first_order_statistics(type=i.lower(),num_allowed=allowed_num))
-        fifth_run_glcm()
+        fifth_matrix_glcm()
 
-def fifth_run_glcm():
-    st.subheader('Menampilkan GLCM berdasarkan list gambar')
+def fifth_matrix_glcm():
+    st.subheader('Menampilkan Matrix GLCM berdasarkan list gambar')
+    try:
+        selected_glcm_type = st.selectbox( #Box pemilihan untuk memilih mode tampilan dataframe normalize
+            label='Select Type',
+            options=type,
+            key='matrix_glcm_selector'
+        )
+        glcm_matrix_no = int(st.text_input(label='Masukkan Nomor Gambar untuk GLCM Matrix',placeholder='Ketik Disini!',value=allowed_num[0])) #Input nomor gambar
+        if(glcm_matrix_no not in allowed_num):
+            raise NameError
+    except NameError:
+        st.error('Nomor Gambar harus pada rentang yang anda dapatkan!')
+    except Exception:
+        st.error('Input harus sebuah angka!')
+    else:
+        get_image = dataholder.get_sample_image(type=selected_glcm_type.lower(),num=glcm_matrix_no)
+        st.write(glcm.get_glcm(get_image),width=300)
+        sixth_run_glcm()
+
+def sixth_run_glcm():
+    st.subheader('Menampilkan Data GLCM berdasarkan list gambar')
     try:
         selected_glcm_type = st.selectbox( #Box pemilihan untuk memilih mode tampilan dataframe normalize
             label='Select Type',
@@ -98,17 +118,17 @@ def fifth_run_glcm():
     except Exception:
         st.error('Ada yang salah di mesin nih...')
     else:
+        global glcm_dataframe
         if(selected_glcm_type!='All'):
-            global glcm_dataframe
             glcm_dataframe = glcm.run_glcm(type=selected_glcm_type.lower(),num_allowed=allowed_num)
             st.dataframe(glcm_dataframe)
-            sixth_run_texture_histogram()
         else:
             for i in type:
-                st.dataframe(glcm.run_glcm(type=i.lower(),num_allowed=allowed_num))
-                sixth_run_texture_histogram()
+                glcm_dataframe = glcm.run_glcm(type=i.lower(),num_allowed=allowed_num)
+                st.dataframe(glcm_dataframe)
+        seventh_run_texture_histogram()
 
-def sixth_run_texture_histogram():
+def seventh_run_texture_histogram():
     st.subheader('Menampilkan Texture Histogram berdasarkan list gambar')
     texture_type_selector = ['Dissimilarity','Correlation','Energy','Homogeneity','ASM','IDM','Entropy','All']
     try:
