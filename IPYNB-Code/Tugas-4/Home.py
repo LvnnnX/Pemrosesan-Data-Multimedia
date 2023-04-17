@@ -2,6 +2,7 @@ import streamlit as st
 import dataholder
 import visualization as vis
 import glcm
+import numpy as np
 
 def first_run_get_sample():
     st.subheader('Menampilkan Sample Gambar berdasarkan nomor yang anda dapatkan')
@@ -141,7 +142,7 @@ if __name__== '__main__':
         if(get_cls not in all_class):
             raise RuntimeError
         get_num = int(st.text_input(label='Masukkan Nomor Absen',placeholder='Ketik Disini!',value='5'))
-        if(get_num<1 or get_num>20):
+        if get_num not in np.arange(1,20):
             raise NameError
     
     except RuntimeError:
