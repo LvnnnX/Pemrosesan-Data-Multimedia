@@ -5,6 +5,12 @@ __pycache__/
 
 private/
 
+*.jpg
+*.png
+*.zip
+*.nrrd
+
+
 # C extensions
 *.so
 
