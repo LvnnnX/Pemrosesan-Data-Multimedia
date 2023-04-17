@@ -8,6 +8,6 @@ pyfeats==1.0.0
 Sastrawi==1.0.1
 scipy==1.10.1
 seaborn==0.11.2
-skimage==0.0
+scikit-image
 spacy==3.5.1
 streamlit==1.20.0
