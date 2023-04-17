@@ -4,7 +4,6 @@ import visualization as vis
 import glcm
 
 def first_run_get_sample():
-    # st.title('Sentimen Analisis')
     st.subheader('Menampilkan Sample Gambar berdasarkan nomor yang anda dapatkan')
     try:
         sample_num = int(st.text_input(label='Masukkan Nomor Gambar untuk sample',placeholder='Ketik Disini!',value=allowed_num[0])) #Input nomor gambar

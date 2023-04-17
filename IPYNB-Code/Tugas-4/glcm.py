@@ -7,8 +7,6 @@ from pathlib import Path
 PATH = Path(__file__).parent.parent.parent
 DDIR = PATH / 'datasets'
 
-
-
 def calc_glcm_all_agls(img, label, props, dists=[5], agls=[0, np.pi/4, np.pi/2, 3*np.pi/4], lvl=256, sym=True, norm=True):
         glcm = graycomatrix(img, 
                         distances=dists, 
@@ -35,7 +33,6 @@ def inverse_difference_moment(matrix):
                 idm += matrix[i][j][a-1][b] / (1 + (i - j)**2)
         idms.append(idm)
     return idms
-
 
 def entropy(matrix):
     all_entropy = []
@@ -64,7 +61,6 @@ def run_glcm(type:str, num_allowed:list) -> pd.DataFrame:
         matrix, feature = calc_glcm_all_agls(img,label,props=properties)
         glcm_all_agls.append(feature)
         all_matrix.append(matrix)
-        # idms.append(idm_val)
         
     columns = []
     angles = ['0', '45', '90','135']

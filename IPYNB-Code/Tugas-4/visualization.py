@@ -13,7 +13,6 @@ HAPPY_DIR = DDIR / 'happy' #Directory untuk happy
 SAD_DIR = DDIR / 'sad' #Directory untuk sad
 NEUTRAL_DIR = DDIR / 'neutral' #Directory untuk neutral
 
-
 def color_histogram(type:str, num_allowed:list):
     if(type!='all'):
         fig, ax = plt.subplots(nrows=len(num_allowed)//5, ncols=5, figsize=(50,15), dpi=100)

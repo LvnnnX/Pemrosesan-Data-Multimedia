@@ -1,8 +1,6 @@
 import pandas as pd
 import numpy as np
 from pathlib import Path
-import math
-import re
 from PIL import Image
 from skimage import io
 from scipy.stats import skew,kurtosis,entropy
@@ -36,11 +34,8 @@ def get_all_matrix(num:list, type:list):
         for j in num:
             all_matrix.append(io.imread(f'{DDIR}/{i}/{i}-{j:04d}.jpg'))
     return all_matrix
-    
 
 def get_first_order_statistics(type:str, num_allowed:list) -> pd.DataFrame:
-    image_name = []
-    all_image = []
     first_order_dataframe = pd.DataFrame(columns=['Label','Mean','Variance','Skewness','Kurtosis','Entropy'])
     for num,value in enumerate(num_allowed):
         data_first_order = []
