@@ -4,11 +4,14 @@ __pycache__/
 *$py.class
 
 private/
+IPYNB-Code/Tugas-5/dataset/
 
+test.py
 *.jpg
 *.png
 *.zip
 *.nrrd
+*.pdf
 
 
 # C extensions
