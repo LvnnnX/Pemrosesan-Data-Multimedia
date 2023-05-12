@@ -4,11 +4,12 @@ import numpy as np
 
 global sample_rate
 sample_rate:int = 22050 #Set sample rate
+
 #TODO : First Function is to get sample audio
 def first_run_get_sample():
     st.subheader('Menampilkan Sample Gambar berdasarkan nomor yang anda dapatkan')
     try:
-        sample_num = int(st.text_input(label='Masukkan Nomor Gambar untuk sample',placeholder='Ketik Disini!',value=allowed_num[0])) #Input nomor gambar
+        sample_num:int = int(st.text_input(label='Masukkan Nomor Gambar untuk sample',placeholder='Ketik Disini!',value=allowed_num[0])) #Input nomor gambar
         if(sample_num not in allowed_num):
             raise NameError
     except NameError:
@@ -20,11 +21,11 @@ def first_run_get_sample():
         st.pyplot(fig)
         col1,col2,col3 = st.columns([1,1,1])
         with col1:
-            st.audio(audio[0],sample_rate=sample_rate)
+            st.audio(audio[0])
         with col2:
-            st.audio(audio[1],sample_rate=sample_rate)
+            st.audio(audio[1])
         with col3:
-            st.audio(audio[2],sample_rate=sample_rate)
+            st.audio(audio[2])
 
 
 
@@ -43,13 +44,13 @@ if __name__== '__main__':
         st.image(dh.get_images('hero'),width=150,caption='Made By Pande Dani, Informatika 2021') #Foto Profile & Nama Developer
     with col3:
         st.header('')
-    all_class = ['A','B','C','D']
+    all_class:list[str] = ['A','B','C','D']
     try:
-        get_cls = str(st.text_input(label='Masukkan Kelas Anda!',placeholder='Ketik Disini!',value='B')) #Input kelas
+        get_cls:str = str(st.text_input(label='Masukkan Kelas Anda!',placeholder='Ketik Disini!',value='B')) #Input kelas
         if(get_cls not in all_class): #Jika kelas yang diinput tidak ada pada list kelas
             raise RuntimeError
-        get_num = int(st.text_input(label='Masukkan Nomor Absen',placeholder='Ketik Disini!',value='5')) #Input nomor absen
-        if get_num not in np.arange(1,20): #Jika nomor absen yang diinput tidak ada pada rentang 1 - 20
+        get_num:int = int(st.text_input(label='Masukkan Nomor Absen',placeholder='Ketik Disini!',value='5')) #Input nomor absen
+        if get_num not in np.arange(1,21): #Jika nomor absen yang diinput tidak ada pada rentang 1 - 20
             raise NameError
     
     except RuntimeError:
@@ -61,7 +62,7 @@ if __name__== '__main__':
 
     else:
         global allowed_num #set variabel global
-        allowed_num = dh.get_allowed_number(get_cls,all_class,get_num) #Mengambil list nomor gambar yang dapat digunakan
+        allowed_num:list[int] = dh.get_allowed_number(get_cls,all_class,get_num) #Mengambil list nomor gambar yang dapat digunakan
         st.write(f'Angka yang dapat anda gunakan adalah',*allowed_num) #Menampilkan list nomor gambar yang dapat digunakan
         first_run_get_sample()
 
