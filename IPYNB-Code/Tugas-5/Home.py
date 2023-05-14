@@ -1,10 +1,22 @@
-import streamlit as st
+from library import np,st,base64,threading,time
 import dataholder as dh
-import numpy as np
-import base64
+import timeDomain as td
+import frequencyDomain as fd
+import mfcc
+import timeFrequencyDomain as tfd
 
-global sample_rate
-sample_rate:int = 22050 #Set sample rate
+# class CustomThread(threading.Thread):
+#     def __init__(self, group=None, target=None, name=None, args=(), kwargs={}):
+#         threading.Thread.__init__(self, group, target, name, args, kwargs)
+#         self._return = None
+    
+#     def run(self):
+#         if self._target is not None:
+#             self._return = self._target(*self._args, **self._kwargs)
+
+#     def join(self):
+#         threading.Thread.join(self, *self._args)
+#         return self._return
 
 #TODO : First Function is to get sample audio
 def first_run_get_sample():
@@ -29,11 +41,13 @@ def first_run_get_sample():
             st.audio(audio[2])
         global num_list
         num_list = get_num_list()
-        second_run_time_domain()
+
+        if(num_list is not None):
+            second_run_time_domain()
 
 #TODO : List 3 number that user want to use (3 each class)
-def get_num_list() -> list[int]:
-    st.markdown("<h1 style='text-align: center; color:white'>Audio input selection (<font color='red'>3</font> samples)</h1>", unsafe_allow_html=True)
+def get_num_list():
+    st.markdown("<h1 style='text-align: center; color:white'>Audio input selection (<font color='grene'>3</font> samples)</h1>", unsafe_allow_html=True)
     st.markdown("<h5 style='text-align: center; color: white;'>The default is your 3 first number from allowed numbers</h5>", unsafe_allow_html=True)
 
     col1,col2,col3 = st.columns([1,1,1])
@@ -64,7 +78,11 @@ def get_num_list() -> list[int]:
             st.error('Nomor audio harus pada rentang yang anda dapatkan!')
         except Exception as _:
             st.error('Nomor audio harus sebuah angka!')
-    return [num_1,num_2,num_3]
+    if(len(set([num_1,num_2,num_3])) != 3):
+        st.error('Nomor audio harus berbeda!')
+        return None
+    else:
+        return [num_1,num_2,num_3]
 
 
 #TODO : Second Function is to show Time-Domain
@@ -81,7 +99,7 @@ def second_run_time_domain():
                 di mana sinyal direpresentasikan sebagai amplitudo yang bervariasi dengan waktu.")
 
     for num in num_list:
-        audio,fig = dh.get_amplitude_time_representation(num)
+        audio, fig = td.get_amplitude_time_representation(num)
         st.pyplot(fig)
         col1,col2,col3 = st.columns([1,1,1])
         with col1:
@@ -91,7 +109,6 @@ def second_run_time_domain():
         with col3:
             st.audio(audio[2])
 
-
     #TODO : Average Energy (2/4)
     st.markdown("<h3 style='text-align:center'>Average Energy</h3>\
                 <p style='text-align:center'>Menampilkan <font color='grene'>Average Energy</font> berdasarkan audio yang anda pilih (3 dari 10)</p>", unsafe_allow_html=True)
@@ -99,8 +116,24 @@ def second_run_time_domain():
     st.caption(f"Energi rata-rata menunjukkan kenyaringan sinyal audio.")
 
     for num in num_list:
-        fig = dh.get_average_energy(num)
+        fig = td.get_average_energy(num)
         st.pyplot(fig)
+
+    # thread_1 = CustomThread(target=td.get_average_energy, args=(num_list[0],))
+    # thread_2 = CustomThread(target=td.get_average_energy, args=(num_list[1],))
+    # thread_3 = CustomThread(target=td.get_average_energy, args=(num_list[2],))
+
+    # thread_1.start()
+    # thread_2.start()
+    # thread_3.start()
+
+    # fig_1 = thread_1.join()
+    # fig_2 = thread_2.join()
+    # fig_3 = thread_3.join()
+
+    # st.pyplot(fig_1)
+    # st.pyplot(fig_2)
+    # st.pyplot(fig_3)
 
     #TODO : Zero Crossing Rate (3/4)
     st.markdown("<h3 style='text-align:center'>Zero Crossing Rate</h3>\
@@ -110,7 +143,7 @@ def second_run_time_domain():
     perubahan tanda. Sampai batas tertentu, ini menunjukkan frekuensi sinyal rata-rata.")
 
     for num in num_list:
-        fig = dh.get_zero_crossing_rate(num)
+        fig = td.get_zero_crossing_rate(num)
         st.pyplot(fig)
 
     #TODO : Silence Ratio (4/4)
@@ -128,7 +161,7 @@ def second_run_time_domain():
     Ada beberapa cara untuk mencari :blue[rasio keheningan], namun kasus kali ini developer memilih untuk menetapkan bahwa suara dapat dikatakan :red[hening] jika dan hanya jika amplitudo dari suara tersebut di bawah :red[10%] dari amplitudo maksimum dari suara tersebut.")
     
     for num in num_list:
-        silence_rate,fig = dh.get_silence_ratio(num)
+        silence_rate,fig = td.get_silence_ratio(num)
         st.pyplot(fig)
         col1,col2,col3 = st.columns([1,1,1])
         with col1:
@@ -156,7 +189,7 @@ def third_run_frequency_domain():
     representasi domain menurut Transformasi Fourier.")
 
     for num in num_list:
-        fig = dh.get_sound_spectrum(num)
+        fig = fd.get_sound_spectrum(num)
         st.pyplot(fig)
 
     #TODO Bandwidth (2/3)
@@ -171,7 +204,7 @@ def third_run_frequency_domain():
     minimal 3 dB di atas tingkat diam.")
 
     for num in num_list:
-        fig = dh.get_bandwidth(num)
+        fig = fd.get_bandwidth(num)
         st.pyplot(fig)
 
     #TODO : Spectral Centroid (3/3)
@@ -182,7 +215,7 @@ def third_run_frequency_domain():
     st.caption(f"Menunjukkan di mana :red[pusat massa] untuk suara berada dan dihitung sebagai rata-rata tertimbang dari frekuensi yang ada dalam suara.")
 
     for num in num_list:
-        fig = dh.get_spectral_centroid(num)
+        fig = fd.get_spectral_centroid(num)
         st.pyplot(fig)
 
     #TODO : Spectral Roll-Off (Bonus)
@@ -193,9 +226,65 @@ def third_run_frequency_domain():
     st.caption(f"Menunjukkan frekuensi di mana :red[85%] dari energi spektral berada di bawah frekuensi ini.")
 
     for num in num_list:
-        fig = dh.get_spectral_rolloff(num)
+        fig = fd.get_spectral_rolloff(num)
         st.pyplot(fig)
 
+    fourth_run_mfcc()
+
+#TODO : Fourth Function is to show MFCC
+def fourth_run_mfcc():
+    
+    st.markdown("<h2 style='text-align: center; color: white;'><font color='green'>-==-</font> Mel-Frequency Cepstral Coefficients <font color='green'>-==-</font></h2>", unsafe_allow_html=True)
+
+    #TODO : MFCC (1/1)
+    st.markdown("<h3 style='text-align:center'>Cepstral Coefficients</h3>\
+                <p style='text-align:center'>Menampilkan <font color='grene'>Cepstral Coefficients</font> berdasarkan audio yang anda pilih (3 dari 10)</p>", unsafe_allow_html=True)
+
+    #TODO : MFCC Description
+    st.caption(f"Koefisien cepstral frekuensi mel (MFCC) adalah koefisien yang secara kolektif membentuk MFC. Mereka berasal dari jenis representasi cepstral dari klip audio ('spektrum dari sebuah spektrum' nonlinier). Perbedaan antara cepstrum dan cepstrum frekuensi mel adalah bahwa dalam MFC, pita frekuensi berjarak sama pada skala mel, yang mendekati respons sistem pendengaran manusia lebih dekat daripada pita frekuensi dengan spasi linier yang digunakan dalam spektrum normal. Pembengkokan frekuensi ini memungkinkan representasi suara yang lebih baik, misalnya, dalam kompresi audio yang berpotensi mengurangi bandwidth transmisi dan kebutuhan penyimpanan sinyal audio.")
+
+    for num in num_list:
+        fig = mfcc.get_mfcc(num)
+        st.pyplot(fig)
+
+
+    #TODO : Scaled MFCC (Bonus)
+    st.markdown("<h3 style='text-align:center'>Scaled Cepstral Coefficients</h3>\
+                <p style='text-align:center'>Menampilkan <font color='grene'>Scaled Cepstral Coefficients</font> berdasarkan audio yang anda pilih (3 dari 10)</p>", unsafe_allow_html=True)
+    
+    #TODO : Scaled MFCC Description
+    st.caption(f'Mari lakukan perubahan skala MFCC sedemikian rupa sehingga setiap dimensi koefisien memiliki rata-rata nol dan varian satuan.')
+
+    for num in num_list:
+        fig = mfcc.get_scaled_mfcc(num)
+        st.pyplot(fig)
+
+    fifth_run_time_frequency_domain()
+
+
+#TODO : Time-Frequency Domain
+def fifth_run_time_frequency_domain():
+
+    st.markdown("<h2 style='text-align: center; color: white;'><font color='green'>-==-</font> Time Frequency Domain <font color='green'>-==-</font></h2>", unsafe_allow_html=True)
+
+    #TODO : Spectogram Representation (1/1)
+    st.markdown("<h3 style='text-align:center'>Spectogram Representation</h3>\
+                <p style='text-align:center'>Menampilkan <font color='grene'>Spectogram Representation</font> berdasarkan audio yang anda pilih (3 dari 10)</p>", unsafe_allow_html=True)
+    
+    #TODO : Spectogram Representation Description
+    st.caption(f'Spektogram adalah grafik yang menggambarkan perubahan frekuensi dan intensitas gelombang menurut sumbu waktu. Spektogram digunakan dalam bidang musik, linguistik, sonar, radar, pengolahan wicara, seismologi, dan lain-lain.')
+
+    for num in num_list:
+        fig = tfd.get_spectogram(num)
+        st.pyplot(fig)
+
+    #TODO : Mel Spectogram Representation (Bonus)
+    st.markdown("<h3 style='text-align:center'>Mel-Spectogram Representation</h3>\
+                <p style='text-align:center'>Menampilkan <font color='grene'>Mel-Spectogram Representation</font> berdasarkan audio yang anda pilih (3 dari 10)</p>", unsafe_allow_html=True)
+
+    for num in num_list:
+        fig = tfd.get_mel_spectogram(num)
+        st.pyplot(fig)
 
 if __name__== '__main__':
     st.markdown("<h2 style='text-align: center; color: white;'>Program Audio Preprocessing</h2>", unsafe_allow_html=True) #Judul Program
@@ -228,7 +317,12 @@ if __name__== '__main__':
         global allowed_num #set variabel global
         allowed_num:list[int] = dh.get_allowed_number(get_cls,all_class,get_num) #Mengambil list nomor gambar yang dapat digunakan
         st.write(f'Angka yang dapat anda gunakan adalah',*allowed_num) #Menampilkan list nomor gambar yang dapat digunakan
+
+        st.markdown(f"<p style='background-color:#de7d76; border-radius:5px; margin:auto; text-align:center; padding:15px; font-size:20px'>Jika terjadi error seperti <font color='#7afafa'>RendererAgg</font>, refresh halaman ini!<br> <font color='#7afafa'>RendererAgg</font> terjadi jika anda mengubah masukkan pada saat system melakukan proses visualisasi atau 2 proses visualisasi berjalan pada saat yang bersamaan.</p>",unsafe_allow_html=True)
+
         first_run_get_sample()
+        # fourth_run_mfcc()
+        # fifth_run_time_frequency_domain()
         # third_run_frequency_domain()
 
 
