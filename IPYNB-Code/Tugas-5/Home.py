@@ -277,9 +277,9 @@ if __name__== '__main__':
     hero_bytes = dh.Path(dh.IMGDIR / 'hero.jpg').read_bytes() #Membaca file gambar
     encoded = base64.b64encode(hero_bytes).decode() #Mengencode file gambar
 
-    st.markdown(f"<img src='data:image/jpg;base64,{encoded}' class='img-fluid' style='width:150px;height:150px;display:block;margin-left:auto;margin-right:auto'>", unsafe_allow_html=True)
+    st.markdown(f"<img src='data:image/jpg;base64,{encoded}' class='img-fluid' style='width:150px;height:150px;display:block;margin-left:auto;margin-right:auto;border-radius:15px'>", unsafe_allow_html=True)
 
-    st.markdown("<h3 style='text-align: center; color: white; font-weight:10; font-size:15px'>Made By Pande Dani, Informatika 2021</h3>", unsafe_allow_html=True)
+    st.markdown("<h3 style='text-align: center; color: white; font-weight:10; font-size:15px; opacity:0.7'>Made By Pande Dani, Informatika 2021</h3>", unsafe_allow_html=True)
         
     st.markdown(f"<p style='position:fixed;left:75px;bottom:0px;width:100%;background-color:transparent;color:white;text-align:left;padding:0px;z-index:10;padding:0px'>Developed with ❤ by Pande Dani</p>",unsafe_allow_html=True)
         
