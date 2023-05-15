@@ -47,10 +47,10 @@ def first_run_get_sample():
 
 #TODO : List 3 number that user want to use (3 each class)
 def get_num_list():
-    st.markdown("<h1 style='text-align: center; color:white'>Audio input selection (<font color='grene'>3</font> samples)</h1>", unsafe_allow_html=True)
-    st.markdown("<h5 style='text-align: center; color: white;'>The default is your 3 first number from allowed numbers</h5>", unsafe_allow_html=True)
+    st.markdown("<h1 style='text-align: center; color:white'>Audio input selection (<font color='grene'>3</font> samples)</h1>\
+                <h5 style='text-align: center; color: white;'>The default is your 3 first number from allowed numbers</h5>", unsafe_allow_html=True)
 
-    col1,col2,col3 = st.columns([1,1,1])
+    col1,col2,col3 = st.columns([1,1,1])    
     with col1:
         try:
             num_1:int = (int(st.text_input(label=f'Masukkan Nomor audio untuk sample ke-{1}',placeholder='Ketik Disini!',value=allowed_num[0])))
@@ -118,22 +118,6 @@ def second_run_time_domain():
     for num in num_list:
         fig = td.get_average_energy(num)
         st.pyplot(fig)
-
-    # thread_1 = CustomThread(target=td.get_average_energy, args=(num_list[0],))
-    # thread_2 = CustomThread(target=td.get_average_energy, args=(num_list[1],))
-    # thread_3 = CustomThread(target=td.get_average_energy, args=(num_list[2],))
-
-    # thread_1.start()
-    # thread_2.start()
-    # thread_3.start()
-
-    # fig_1 = thread_1.join()
-    # fig_2 = thread_2.join()
-    # fig_3 = thread_3.join()
-
-    # st.pyplot(fig_1)
-    # st.pyplot(fig_2)
-    # st.pyplot(fig_3)
 
     #TODO : Zero Crossing Rate (3/4)
     st.markdown("<h3 style='text-align:center'>Zero Crossing Rate</h3>\
@@ -317,16 +301,11 @@ if __name__== '__main__':
 
     else:
         global allowed_num #set variabel global
-        allowed_num:list[int] = dh.get_allowed_number(get_cls,all_class,get_num) #Mengambil list nomor gambar yang dapat digunakan
-        st.write(f'Angka yang dapat anda gunakan adalah',*allowed_num) #Menampilkan list nomor gambar yang dapat digunakan
+        allowed_num:list[int] = dh.get_allowed_number(get_cls,all_class,get_num) #Mengambil list nomor audio yang dapat digunakan
+        st.write(f'Angka yang dapat anda gunakan adalah',*allowed_num) #Menampilkan list nomor audio yang dapat digunakan
 
         st.markdown(f"<p style='background-color:#de7d76; border-radius:5px; margin:auto; text-align:center; padding:15px; font-size:20px'>Jika terjadi error seperti <font color='#7afafa'>RendererAgg</font>, refresh halaman ini!<br> <font color='#7afafa'>RendererAgg</font> terjadi jika anda mengubah masukkan pada saat system melakukan proses visualisasi atau 2 proses visualisasi berjalan pada saat yang bersamaan.</p>",unsafe_allow_html=True)
 
         first_run_get_sample()
-        # fourth_run_mfcc()
-        # fifth_run_time_frequency_domain()
-        # third_run_frequency_domain()
-
-
 
 #Dibuat oleh Pande Dani
