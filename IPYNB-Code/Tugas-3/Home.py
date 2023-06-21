@@ -3,6 +3,7 @@ import dataholder
 import convert
 import stopstem
 import change_text
+import base64
 # import pandas as pd
 
 def get_progress():
@@ -223,14 +224,17 @@ def get_progress():
         st.write(e)
 
 if __name__== '__main__':
-    col1,col2,col3 = st.columns(3)
-    with col1:
-        st.header('Program')
-    with col2:
-        st.header('Sentimen')
-        st.image(dataholder.get_images('hero'),width=150,caption='Made By Pande Dani, Informatika 2021') #Foto Profile & Nama Developer
-    with col3:
-        st.header('Analisis')
+    st.markdown("<h2 style='text-align: center; color: white;'>Program Audio Preprocessing</h2>", unsafe_allow_html=True) #Judul Program
+    # st.image(dh.get_images('hero'),width=150,caption='Made By Pande Dani, Informatika 2021') #Foto Profile & Nama Developer
+
+    hero_bytes = dataholder.Path(dataholder.IMGDIR / 'hero.jpg').read_bytes() #Membaca file gambar
+    encoded = base64.b64encode(hero_bytes).decode() #Mengencode file gambar
+
+    st.markdown(f"<img src='data:image/jpg;base64,{encoded}' class='img-fluid' style='width:150px;height:150px;display:block;margin-left:auto;margin-right:auto;border-radius:15px'>", unsafe_allow_html=True)
+
+    st.markdown("<h3 style='text-align: center; color: white; font-weight:10; font-size:15px; opacity:0.7'>Made By Pande Dani, Informatika 2021</h3>", unsafe_allow_html=True)
+        
+    st.markdown(f"<p style='position:fixed;left:75px;bottom:0px;width:100%;background-color:transparent;color:white;text-align:left;padding:0px;z-index:10;padding:0px'>Developed with ❤ by Pande Dani</p>",unsafe_allow_html=True)
 
     try:
         get_num = int(st.text_input(label='Masukkan Nomor Absen',placeholder='Ketik Disini!',value='5'))
