@@ -2,9 +2,6 @@ from library import *
 from sklearn.preprocessing import StandardScaler, MinMaxScaler
 import pickle
 
-
-model = joblib.load(PATH / 'svm_model_kelompok_dimas_pande_wahyu.joblib')
-
 model_1 = pickle.load(open(PATH / 'svm_model_kelompok_dimas_pande_wahyu.pkl', 'rb'))
 
 scaler = joblib.load(PATH / 'svm_scaler_kelompok_dimas_pande_wahyu.joblib')
