@@ -4,7 +4,9 @@ import pickle
 
 model_1 = pickle.load(open(PATH / 'svm_model_kelompok_dimas_pande_wahyu.pkl', 'rb'))
 
-scaler = joblib.load(PATH / 'svm_scaler_kelompok_dimas_pande_wahyu.joblib')
+# scaler = joblib.load(PATH / 'svm_scaler_kelompok_dimas_pande_wahyu.joblib')
+
+scaler = pickle.load(open(PATH / 'svm_scaler_kelompok_dimas_pande_wahyu.pkl', 'rb'))
 
 # def show_saveshow(name:str= None, directory:os.PathLike = TMPDIR):
 #     audio_obj = ipd.Audio(f'{directory}/{name}')
