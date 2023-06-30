@@ -7,7 +7,7 @@ if __name__== '__main__':
     UI.clear_background()
     UI.make_footer()
 
-    with open('style.css') as f:
+    with open(f'{PATH}/style.css') as f:
         st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
     
     st.markdown("<h1 style='text-align: center; color: white;'>Program Audio Sentimen Analysis</h1>", unsafe_allow_html=True) #Judul Program
