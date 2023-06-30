@@ -7,8 +7,11 @@ private/
 IPYNB-Code/Tugas-5/dataset/
 IPYNB-Code/Final-Project/dataset/
 IPYNB-Code/Final-Project/untitled_project/
-IPYNB-Code/Final-Project/test_input/
-
+IPYNB-Code/Final-Project/test_input/Happy
+IPYNB-Code/Final-Project/test_input/Sad
+IPYNB-Code/Final-Project/ppdmproject/
+*.cpp
+*.exe
 
 test.py
 *.jpg
@@ -16,6 +19,13 @@ test.py
 *.zip
 *.nrrd
 *.pdf
+*.wav
+*.mp3
+!best.jpg
+!contoh_output.jpg
+!dimas.jpg
+!pande.jpg
+!wahyu.jpg
 
 
 # C extensions
