@@ -15,7 +15,7 @@ background = """
         opacity:1;
     }
 
-    [class="css-1lsmgbg egzxvld0"]{
+    [class="css-cio0dv egzxvld1"]{
         opacity:0.0;
     }
 
@@ -30,7 +30,8 @@ background = """
         text-transform: capitalize;
     }
 
-    [class="css-ftpils e1fqkh3o6"]{
+    [class="css-lrlib e1fqkh3o9"]{
+    
         text-transform: capitalize;
     }
     

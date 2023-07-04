@@ -22,9 +22,9 @@ if __name__== '__main__':
         elif files and submitted:
             st.success('Upload success!')
             for file in files:
-                name = dh.save_file(file)
+                # name = dh.save_file(file)
                 # st.write(f'File {file.name} berhasil diupload')
-                predictions = prc.get_prediction(audio_name=file.name, path=TMPDIR)
+                predictions = prc.get_prediction(audio_name=file)
                 
                 fix_prediction = np.argmax(predictions)
 
@@ -45,5 +45,5 @@ if __name__== '__main__':
                 # ax = plt.title(f'Prediction {file.name}', fontsize=16)
 
                 # st.pyplot(fig)
-        dh.delfile(TMPDIR)
+        # dh.delfile(TMPDIR)\
     
