@@ -44,7 +44,7 @@ def clear_background(prompt:str=background):
     
 
 def make_footer():
-    st.markdown(f"<p style='position:fixed;left:270px;bottom:0px;width:100%;background-color:transparent;color:white;text-align:left;z-index:99;padding:0px'>Developed with ❤ by Kelompok X</p>",unsafe_allow_html=True)
+    st.markdown(f"<p style='position:fixed;left:270px;bottom:0px;width:100%;background-color:transparent;color:white;text-align:left;z-index:99;padding:0px'>Developed with ❤ by Kelompok 2</p>",unsafe_allow_html=True)
     
 
 def center_image(classname:str|None = None):

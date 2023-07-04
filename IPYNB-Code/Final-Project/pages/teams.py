@@ -9,6 +9,7 @@ if __name__ == "__main__":
         st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
 
     st.markdown('<h1 style="text-align: center; color: white;">Meet Our Teams</h1>', unsafe_allow_html=True)
+    st.markdown('<h2 style="text-align: center; color: white;">Kelompok 2</h2>', unsafe_allow_html=True)
 
     pande_bytes = Path(IMGDIR / 'pande.jpg').read_bytes() #Membaca file gambar
     encoded_pande = base64.b64encode(pande_bytes).decode() #Mengencode file gambar
